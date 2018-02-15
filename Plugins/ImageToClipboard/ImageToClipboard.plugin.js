@@ -74,12 +74,9 @@ class ImageToClipboard {
 				$(context).prepend(item);
 		}
 		else {
-			imageLink = ReactUtilities.getReactProperty(context, "return.memoizedProps.src");
+			imageLink = ReactUtilities.getReactProperty(context, "return.memoizedProps.href");
 			if (!imageLink) return;
-			imageLink = imageLink.match(/https?\/.*(\.png|\.jpg|\.jpeg)\??/g);
-			if (!imageLink) return;
-			imageLink = imageLink[0].replace("http/", "http://").replace("https/", "https://").replace('?', '');
-			imageLinkLower = imageLink.toLowerCase();
+			imageLinkLower = imageLink.split(/\?|:large$/)[0].toLowerCase();
 			if (imageLinkLower.endsWith('.png') || imageLinkLower.endsWith('.jpg') || imageLinkLower.endsWith('.jpeg')) {
 				item = $(PluginUtilities.formatString(this.contextItem, this.strings)).on("click." + this.getShortName(), ()=>{$(context).hide();this.copyToClipboard(imageLink);});
 				$(context).prepend(item);
